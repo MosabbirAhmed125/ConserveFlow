@@ -3,13 +3,16 @@ import { OrbitControls } from "@react-three/drei";
 import WaterTank from "./WaterTank";
 
 export default function SceneSetup({ apiRef, wireframe, heat }) {
+	const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
 	return (
 		<Canvas
+			className="touch-none select-none"
 			shadows // enable shadow maps
 			orthographic // true isometric look: no perspective foreshortening
 			camera={{
 				position: [8, 8, 8], // equal x/y/z = classic isometric angle
-				zoom: 64, // for orthographic cameras, "zoom" = pixels per world unit
+				zoom: isMobile ? 34 : 64, // for orthographic cameras, "zoom" = pixels per world unit
 				near: 0.1,
 				far: 200,
 			}}
@@ -63,7 +66,7 @@ export default function SceneSetup({ apiRef, wireframe, heat }) {
 				dampingFactor={0.08}
 				maxPolarAngle={Math.PI / 2.2} // can't orbit below the floor
 				minPolarAngle={0.2} // can't flip over the top
-				minZoom={20}
+				minZoom={16}
 				maxZoom={110}
 			/>
 		</Canvas>

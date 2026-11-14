@@ -99,17 +99,17 @@ const ActionBanner = forwardRef(function ActionBanner(_, ref) {
 
 	const cfg = shown ? KINDS[shown.kind] : KINDS.wave;
 	return (
-		<div className="pointer-events-none absolute inset-x-0 top-5 z-10 flex justify-center">
+		<div className="pointer-events-none absolute inset-x-0 top-[4.25rem] z-10 flex justify-center px-3 md:top-5 md:px-0">
 			<div ref={wrap} style={{ opacity: 0 }} aria-live="polite">
 				<div
 					ref={card}
-					className={`flex items-center gap-3 rounded-xl border-2 border-cod-gray-900 px-5 py-2.5 shadow-[4px_4px_0_#191a19] ${cfg.bg}`}
+					className={`flex items-center gap-2 rounded-xl border-2 border-cod-gray-900 px-3.5 py-2 shadow-[4px_4px_0_#191a19] md:gap-3 md:px-5 md:py-2.5 ${cfg.bg}`}
 				>
 					<span
 						ref={dot}
 						className={`h-3.5 w-3.5 shrink-0 rounded-sm border-2 border-cod-gray-900 ${cfg.dot}`}
 					/>
-					<span className="font-phenomena text-base font-bold uppercase tracking-wide">
+					<span className="font-phenomena text-sm font-bold uppercase tracking-wide md:text-base">
 						{cfg.text}
 					</span>
 				</div>

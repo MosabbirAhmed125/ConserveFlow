@@ -10,7 +10,7 @@ const hard = "shadow-[3px_3px_0_#191a19]";
 // Tactile micro-lift on hover, compression on press
 const lift =
 	"transition-all duration-150 ease-out hover:-translate-x-[1.5px] hover:-translate-y-[1.5px] hover:shadow-[4.5px_4.5px_0_#191a19] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0_#191a19]";
-const btn = `group ${ink} ${hard} ${lift} flex items-center gap-2 rounded-lg px-4 py-2 font-phenomena text-base font-bold tracking-wide`;
+const btn = `group ${ink} ${hard} ${lift} flex min-h-[40px] touch-manipulation items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 font-phenomena text-sm font-bold tracking-wide md:justify-start md:gap-2 md:px-4 md:py-2 md:text-base`;
 
 // Small status dot inside buttons: nudges + grows on hover
 const Dot = ({ color }) => (
@@ -25,7 +25,7 @@ function Toggle({ label, checked, onChange }) {
 	return (
 		<label
 			data-pop
-			className="flex cursor-pointer select-none items-center gap-2 pl-2 pr-3 font-phenomena text-base font-bold tracking-wide text-cod-gray-900"
+			className="flex cursor-pointer select-none items-center justify-between gap-2 rounded-lg border-2 border-cod-gray-900 bg-pearl-bush-100/70 px-2.5 py-1.5 font-phenomena text-sm font-bold tracking-wide text-cod-gray-900 md:justify-start md:rounded-none md:border-0 md:bg-transparent md:pl-2 md:pr-3 md:py-0 md:text-base"
 		>
 			<span>{label}</span>
 			<button
@@ -33,7 +33,7 @@ function Toggle({ label, checked, onChange }) {
 				role="switch"
 				aria-checked={checked}
 				onClick={() => onChange(!checked)}
-				className={`${ink} relative h-7 w-12 rounded-lg transition-colors duration-150 ${checked ? "bg-fountain-blue-300" : "bg-pearl-bush-200"}`}
+				className={`${ink} relative h-7 w-12 shrink-0 touch-manipulation rounded-lg transition-colors duration-150 ${checked ? "bg-fountain-blue-300" : "bg-pearl-bush-200"}`}
 			>
 				<span
 					className={`${ink} absolute left-0.5 top-0.5 h-5 w-5 rounded-md bg-pearl-bush-50 transition-transform duration-150 ease-out ${checked ? "translate-x-5" : "translate-x-0"}`}
@@ -138,17 +138,17 @@ export default function App() {
 			<TelemetryDrawer apiRef={apiRef} open={telOpen} />
 
 			{/* HUD layer: pointer-events-none lets mouse drags pass through to the 3D canvas */}
-			<div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-5">
+			<div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:p-5">
 				{/* Top row: title card (left) + Telemetry & AI toggle (right) */}
-				<div className="flex items-start justify-between">
+				<div className="flex items-start justify-between gap-2">
 					<div
 						ref={titleRef}
-						className={`${ink} pointer-events-auto w-fit rounded-xl bg-pearl-bush-50 px-5 py-3 shadow-[4px_4px_0_#191a19]`}
+						className={`${ink} pointer-events-auto w-fit rounded-xl bg-pearl-bush-50 px-3.5 py-2 shadow-[4px_4px_0_#191a19] md:px-5 md:py-3`}
 					>
-						<h1 className="font-galhaudisplay-bold text-2xl leading-none tracking-tight text-cod-gray-900">
+						<h1 className="font-galhaudisplay-bold text-xl leading-none tracking-tight text-cod-gray-900 md:text-2xl">
 							ConserveFlow
 						</h1>
-						<p className="mt-1 font-phenomena text-xs font-bold uppercase tracking-wider text-wedgewood-600">
+						<p className="mt-1 font-phenomena text-[11px] font-bold uppercase leading-tight tracking-wider text-wedgewood-600 md:text-xs">
 							Isometric Dam &amp; Flood Diorama
 						</p>
 					</div>
@@ -157,13 +157,16 @@ export default function App() {
 						type="button"
 						aria-expanded={telOpen}
 						onClick={() => setTelOpen((o) => !o)}
-						className={`group ${ink} ${hard} ${lift} pointer-events-auto flex items-center gap-2 rounded-lg px-4 py-2 font-phenomena text-base font-bold tracking-wide text-cod-gray-900 ${telOpen ? "bg-lightning-yellow-200" : "bg-pearl-bush-50 hover:bg-lightning-yellow-100"}`}
+						className={`group ${ink} ${hard} ${lift} pointer-events-auto flex shrink-0 touch-manipulation items-center gap-2 rounded-lg px-3 py-2 font-phenomena text-sm font-bold tracking-wide text-cod-gray-900 md:px-4 md:py-2 md:text-base ${telOpen ? "bg-lightning-yellow-200" : "bg-pearl-bush-50 hover:bg-lightning-yellow-100"}`}
 					>
 						<span className="relative flex h-2.5 w-2.5 transition-transform duration-150 group-hover:scale-125">
 							<span className="absolute inline-flex h-full w-full animate-ping rounded-sm bg-gossamer-400 opacity-75" />
 							<span className="relative inline-flex h-2.5 w-2.5 rounded-sm border border-cod-gray-900 bg-gossamer-500" />
 						</span>
-						Telemetry &amp; AI
+						<span className="sm:hidden">Telemetry</span>
+						<span className="hidden sm:inline">
+							Telemetry &amp; AI
+						</span>
 						<span
 							aria-hidden
 							className={`inline-block text-lg leading-none transition-transform duration-150 ease-out group-hover:-translate-x-0.5 ${telOpen ? "rotate-180" : ""}`}
@@ -177,7 +180,7 @@ export default function App() {
 				<div className="flex justify-center">
 					<div
 						ref={pillRef}
-						className={`${ink} pointer-events-auto flex flex-wrap items-center justify-center gap-2.5 rounded-xl bg-pearl-bush-50 px-3 py-2.5 shadow-[4px_4px_0_#191a19]`}
+						className={`${ink} pointer-events-auto grid w-full max-w-md grid-cols-2 gap-1.5 rounded-xl bg-pearl-bush-50 p-2 shadow-[4px_4px_0_#191a19] md:flex md:w-auto md:max-w-none md:flex-wrap md:items-center md:justify-center md:gap-2.5 md:px-3 md:py-2.5`}
 					>
 						<button
 							onClick={() => {

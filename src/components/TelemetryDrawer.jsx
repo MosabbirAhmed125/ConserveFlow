@@ -33,12 +33,15 @@ export default function TelemetryDrawer({ apiRef, open }) {
 		const el = panel.current;
 		if (!mounted || !el) return;
 		const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+		const isMobile = window.innerWidth < 768;
 		const metrics = Array.from(el.querySelectorAll("[data-metric]"));
 		if (!open) {
 			// reduced motion: same path, but a near-instant fade (setMounted runs in the callback)
 			const out = createTimeline({ onComplete: () => setMounted(false) });
 			out.add(el, {
-				translateX: [0, reduce ? 0 : 28],
+				...(isMobile
+					? { translateY: [0, reduce ? 0 : -16] }
+					: { translateX: [0, reduce ? 0 : 28] }),
 				opacity: [1, 0],
 				duration: reduce ? 1 : 240,
 				ease: "inQuad",
@@ -50,7 +53,7 @@ export default function TelemetryDrawer({ apiRef, open }) {
 		set(metrics, { opacity: 0 });
 		const tl = createTimeline();
 		tl.add(el, {
-			translateX: [36, 0],
+			...(isMobile ? { translateY: [-20, 0] } : { translateX: [36, 0] }),
 			opacity: [0, 1],
 			scale: [0.96, 1],
 			duration: 700,
@@ -58,7 +61,7 @@ export default function TelemetryDrawer({ apiRef, open }) {
 		}).add(
 			metrics,
 			{
-				translateX: [18, 0],
+				...(isMobile ? { translateY: [-10, 0] } : { translateX: [18, 0] }),
 				opacity: [0, 1],
 				duration: 380,
 				ease: "outBack(1.8)",
@@ -99,7 +102,7 @@ export default function TelemetryDrawer({ apiRef, open }) {
 		<div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
 			<div
 				ref={panel}
-				className="pointer-events-auto absolute right-5 top-20 flex w-72 flex-col gap-2.5 rounded-xl border-2 border-cod-gray-900 bg-neptune-100 p-3 shadow-[4px_4px_0_#191a19]"
+				className="pointer-events-auto absolute inset-x-3 top-[4.25rem] flex max-h-[calc(100dvh-14.5rem)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-xl border-2 border-cod-gray-900 bg-neptune-100 p-2.5 shadow-[4px_4px_0_#191a19] md:inset-x-auto md:right-5 md:top-20 md:max-h-none md:w-72 md:gap-2.5 md:overflow-visible md:p-3"
 			>
 				{/* 1. Compute engine */}
 				<div data-metric className={card}>
