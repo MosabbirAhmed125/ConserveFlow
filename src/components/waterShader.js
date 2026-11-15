@@ -27,7 +27,7 @@ export function createWaterMaterials() {
 		uLift: { value: 0 },
 		cMid: { value: hex("#2C9BA0") },
 		cLight: { value: hex("#72D6D6") },
-		cDeep: { value: hex("#204A84") },
+		cDeep: { value: hex("#397581") },
 		cFoam: { value: hex("#F9FAFA") },
 		cIce: { value: hex("#CAFAFF") },
 		cInk: { value: hex("#191A19") },
